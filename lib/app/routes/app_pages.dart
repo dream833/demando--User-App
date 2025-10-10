@@ -1,0 +1,48 @@
+import 'package:get/get.dart';
+
+import '../modules/bottomnavigationbar/bindings/bottomnavigationbar_binding.dart';
+import '../modules/bottomnavigationbar/views/bottomnavigationbar_view.dart';
+import '../modules/home/bindings/home_binding.dart';
+import '../modules/home/views/home_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
+import '../modules/otppage/bindings/otppage_binding.dart';
+import '../modules/otppage/views/otppage_view.dart';
+import '../modules/signup/bindings/signup_binding.dart';
+import '../modules/signup/views/signup_view.dart';
+
+part 'app_routes.dart';
+
+class AppPages {
+  AppPages._();
+
+  static const INITIAL = Routes.LOGIN;
+
+  static final routes = [
+    GetPage(
+      name: _Paths.HOME,
+      page: () =>  HomeView(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN,
+      page: () => LoginView(),
+      binding: LoginBinding(),
+    ),
+    GetPage(
+      name: _Paths.SIGNUP,
+      page: () => SignUpScreenView(),
+      binding: SignupBinding(),
+    ),
+    GetPage(
+      name: _Paths.OTPPAGE,
+      page: () => const OtppageView(),
+      binding: OtppageBinding(),
+    ),
+    GetPage(
+      name: _Paths.BOTTOMNAVIGATIONBAR,
+      page: () =>  BottomNavigationBarView(),
+      binding: BottomnavigationbarBinding(),
+    ),
+  ];
+}
