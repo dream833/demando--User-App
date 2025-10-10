@@ -9,13 +9,15 @@ class HomeView extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    ScreenUtil.init(context, designSize: const Size(360, 690));
+
     final controller = Get.put(HomeController());
-    final theme = Theme.of(context);
 
     return Scaffold(
+  
+  
       backgroundColor: Colors.grey[100],
       body: SafeArea(
+        
         child: Obx(() {
           return controller.isLoading.value
               ? _buildShimmerLoader()
@@ -23,11 +25,11 @@ class HomeView extends GetView<HomeController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildHeader(theme),
+                      _buildHeader(),
                       SizedBox(height: 5.h),
                       _buildBanner(controller),
                       SizedBox(height: 20.h),
-                      _buildExploreCategories(controller, theme),
+                      _buildExploreCategories(controller),
                       SizedBox(height: 25.h),
                       _buildFeaturedVendors(),
                       SizedBox(height: 30.h),
@@ -39,58 +41,69 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Widget _buildHeader(ThemeData theme) => Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 44.h,
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: Row(
+ Widget _buildHeader() => Container(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Top Row: Location + Profile Icon
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
                 children: const [
-                  Icon(Icons.search, color: Colors.grey),
-                  SizedBox(width: 8),
-                  Text("Search your favorites...", style: TextStyle(color: Colors.grey)),
+                  Icon(Icons.location_on_outlined, size: 20, color: Colors.deepPurple),
+                  SizedBox(width: 4),
+                  Text(
+                    "Gobardanga, Ichapur",
+                    style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                  ),
                 ],
               ),
-            ),
-            SizedBox(height: 10.h),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: const [
-                    Icon(Icons.location_on_outlined, size: 20, color: Colors.deepPurple),
-                    SizedBox(width: 4),
-                    Text("Gobardanga, Ichapur",
-                        style: TextStyle(fontWeight: FontWeight.w500, color: Colors.black87)),
-                  ],
+              Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.deepPurple.shade50,
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.deepPurple.shade50,
-                  ),
-                  padding: EdgeInsets.all(6.w),
-                  child: const Icon(Icons.person_outline, color: Colors.deepPurple),
+                padding: EdgeInsets.all(6.w),
+                child: const Icon(Icons.person_outline, color: Colors.deepPurple),
+              ),
+            ],
+          ),
+          SizedBox(height: 10.h), 
+
+
+          Container(
+            height: 44.h,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 12.w),
+            child: Row(
+              children: [
+                const Icon(Icons.search, color: Colors.grey),
+                SizedBox(width: 8.w),
+                const Text(
+                  "Search your favorites...",
+                  style: TextStyle(color: Colors.grey),
                 ),
               ],
             ),
-          ],
-        ),
-      );
-
+          ),
+          SizedBox(height: 6.h), // gap below search box if needed
+        ],
+      ),
+    );
   Widget _buildBanner(HomeController controller) => SizedBox(
         height: 150.h,
         child: Stack(
@@ -137,17 +150,17 @@ class HomeView extends GetView<HomeController> {
         ),
       );
 
- Widget _buildExploreCategories(HomeController controller, ThemeData theme) => Padding(
+Widget _buildExploreCategories(HomeController controller) => Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Explore Categories",
-            style: theme.textTheme.titleSmall!
-                .copyWith(fontWeight: FontWeight.w500, color: Colors.black, fontSize: 16.sp),
+            style: TextStyle( fontWeight: FontWeight.w500, color: Colors.black, fontSize: 16.sp),
           ),
           SizedBox(height: 8.h),
+
           LayoutBuilder(
             builder: (context, constraints) {
               double containerWidth = constraints.maxWidth;
@@ -158,13 +171,12 @@ class HomeView extends GetView<HomeController> {
                 children: List.generate(controller.categories.length, (index) {
                   final cat = controller.categories[index];
 
-                  int subCount = 0;
-                  if (cat['sub1'] != null) subCount++;
-                  if (cat['sub2'] != null) subCount++;
+                  // sub-items
+                  List<Map<String, dynamic>> subItems = [];
+                  if (cat['sub1'] != null) subItems.add({'title': cat['sub1'], 'icon': Icons.local_grocery_store});
+                  if (cat['sub2'] != null) subItems.add({'title': cat['sub2'], 'icon': Icons.restaurant});
 
-                  double itemWidth = (subCount == 2)
-                      ? (containerWidth - 12.w) / 2
-                      : containerWidth;
+                  double itemWidth = subItems.length == 2 ? (containerWidth - 12.w) / 2 : containerWidth;
 
                   return Container(
                     width: itemWidth,
@@ -182,71 +194,45 @@ class HomeView extends GetView<HomeController> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                          Padding(
-                            padding:  EdgeInsets.all(4.0.sp),
-                            child: Text(
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 10.h),
+                          child: Text(
                             cat['title']!,
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold, color: Colors.black87),
-                                                    ),
+                            style:  TextStyle(
+                                fontSize: 14.w, fontWeight: FontWeight.bold, color: Colors.black87),
                           ),
-                    
-                        // Daily Services / Sub-items - up-left aligned, fully round icons
-                        if (cat['sub1'] != null)
-                        
+                        ),
+
+                        // Horizontal row of sub-items
+                        if (subItems.isNotEmpty)
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 40.w,
-                                height: 40.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.deepPurple.shade50,
-                                  shape: BoxShape.circle,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: List.generate(subItems.length, (subIndex) {
+                              final sub = subItems[subIndex];
+                              return Expanded(
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      width: 60.w,
+                                      height: 60.w,
+                                      decoration: BoxDecoration(
+                                        color: Colors.deepPurple.shade50,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Icon(sub['icon'], color: Colors.deepPurple, size: 24),
+                                    ),
+                                    SizedBox(height: 6.h),
+                                    Text(
+                                      sub['title'],
+                                      style: TextStyle(fontSize: 11.sp, fontWeight: FontWeight.w500),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ],
                                 ),
-                                child: const Icon(Icons.local_grocery_store,
-                                    color: Colors.deepPurple, size: 22),
-                              ),
-                              SizedBox(width: 6.w),
-                              Flexible(
-                                child: Text(
-                                  cat['sub1']!,
-                                  style:  TextStyle(fontSize: 13.w),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                            ],
+                              );
+                            }),
                           ),
-                        if (cat['sub2'] != null) SizedBox(height: 6.h),
-                        if (cat['sub2'] != null)
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                width: 40.w,
-                                height: 40.w,
-                                decoration: BoxDecoration(
-                                  color: Colors.deepPurple.shade50,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(Icons.restaurant,
-                                    color: Colors.deepPurple, size: 22),
-                              ),
-                              SizedBox(width: 6.w),
-                              Flexible(
-                                child: Text(
-                                  cat['sub2']!,
-                                  style:  TextStyle(fontSize: 13.w),
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                              ),
-                            ],
-                          ),
-                        SizedBox(height: 10.h),
-                        // Main Category Title - niche
-                      
                       ],
                     ),
                   );
@@ -257,7 +243,6 @@ class HomeView extends GetView<HomeController> {
         ],
       ),
     );
-
   Widget _buildFeaturedVendors() => Padding(
         padding: EdgeInsets.symmetric(horizontal: 12.w),
         child: Column(
