@@ -8,6 +8,8 @@ abstract class Routes {
   static const SIGNUP = _Paths.SIGNUP;
   static const OTPPAGE = _Paths.OTPPAGE;
   static const BOTTOMNAVIGATIONBAR = _Paths.BOTTOMNAVIGATIONBAR;
+  static const RESTAURENT_HOME = _Paths.RESTAURENT_HOME;
+
 }
 
 abstract class _Paths {
@@ -17,4 +19,6 @@ abstract class _Paths {
   static const SIGNUP = '/signup';
   static const OTPPAGE = '/otppage';
   static const BOTTOMNAVIGATIONBAR = '/bottomnavigationbar';
+  static const RESTAURENT_HOME = '/restaurent-home';
+
 }
