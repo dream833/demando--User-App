@@ -9,7 +9,8 @@ abstract class Routes {
   static const OTPPAGE = _Paths.OTPPAGE;
   static const BOTTOMNAVIGATIONBAR = _Paths.BOTTOMNAVIGATIONBAR;
   static const RESTAURENT_HOME = _Paths.RESTAURENT_HOME;
-
+  static const RESTAURENT_DETAILS = _Paths.RESTAURENT_DETAILS;
+  static const CATEGORY_FOOD_LIST = _Paths.CATEGORY_FOOD_LIST;
 }
 
 abstract class _Paths {
@@ -20,5 +21,6 @@ abstract class _Paths {
   static const OTPPAGE = '/otppage';
   static const BOTTOMNAVIGATIONBAR = '/bottomnavigationbar';
   static const RESTAURENT_HOME = '/restaurent-home';
-
+  static const RESTAURENT_DETAILS = '/restaurent-details';
+  static const CATEGORY_FOOD_LIST = '/category-food-list';
 }

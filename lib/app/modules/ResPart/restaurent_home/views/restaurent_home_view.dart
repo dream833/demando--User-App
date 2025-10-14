@@ -1,6 +1,8 @@
+import 'package:demandouser/app/data/widgets/shimmer.dart';
 import 'package:demandouser/app/modules/ResPart/restaurent_home/widgets/banner_slider.dart';
 import 'package:demandouser/app/modules/ResPart/restaurent_home/widgets/category_item.dart';
 import 'package:demandouser/app/modules/ResPart/restaurent_home/widgets/restaurent_card.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -131,12 +133,36 @@ class RestaurentHomeView extends GetView<RestaurentHomeController> {
 
                 SizedBox(height: 10.h),
 
-                /// 🔹 Restaurant List
-                Obx(() => Column(
-                      children: controller.restaurants
-                          .map((res) => RestaurantCard(data: res))
-                          .toList(),
-                    )),
+                /// 🔹 Restaurant List with Shimmer Loading
+                Obx(() {
+                  if (controller.isLoading.value) {
+                    // 👇 Show shimmer while loading
+                    return buildShimmerLoader();
+                  }
+
+                  // 👇 Handle empty state
+                  if (controller.restaurants.isEmpty) {
+                    return Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 30.h),
+                        child: Text(
+                          "No restaurants found nearby 😔",
+                          style: TextStyle(
+                            fontSize: 14.sp,
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                    );
+                  }
+
+                  // 👇 Show restaurant list after loading
+                  return Column(
+                    children: controller.restaurants
+                        .map((res) => RestaurantCard(data: res))
+                        .toList(),
+                  );
+                }),
               ],
             ),
           ),

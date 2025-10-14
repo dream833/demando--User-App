@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 class RestaurentHomeController extends GetxController {
   var userName = "Sbs".obs;
   var location = "Gobardanga".obs;
+ var isLoading =false.obs;
 
   var searchHint = "Looking for food...".obs;
   var hintList = [
