@@ -115,11 +115,11 @@ class SignUpScreenView extends StatelessWidget {
                 "Password",
                 isObscure: true,
               ),
-              _buildTextField(
-                controller.referController,
-                Icons.card_giftcard,
-                "Referral Code",
-              ),
+              // _buildTextField(
+              //   controller.referController,
+              //   Icons.card_giftcard,
+              //   "Referral Code",
+              // ),
 
               SizedBox(height: 30.h),
 
