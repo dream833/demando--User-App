@@ -8,22 +8,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-
 class LoginView extends StatelessWidget {
   final LoginController controller = Get.put(LoginController());
 
- LoginView({super.key});
+  LoginView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding:  EdgeInsets.symmetric(horizontal: 14.0.w),
+        padding: EdgeInsets.symmetric(horizontal: 14.0.w),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Sign In", style: TextStyle(fontSize: 26.w, fontWeight: FontWeight.bold)),
+            Text(
+              "Sign In",
+              style: TextStyle(fontSize: 26.w, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 10.h),
             Text(
               "Please enter your login details below to start using app.",
@@ -36,43 +38,50 @@ class LoginView extends StatelessWidget {
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.phone),
                 hintText: "Phone Number",
-                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.w)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.w),
+                ),
               ),
             ),
             SizedBox(height: 15.h),
-            Obx(() => TextField(
-                  controller: controller.passwordController,
-                  obscureText: controller.isPasswordHidden.value,
-                  decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.lock),
-                    hintText: "Password",
-                    suffixIcon: IconButton(
-                      icon: Icon(controller.isPasswordHidden.value
+            Obx(
+              () => TextField(
+                controller: controller.passwordController,
+                obscureText: controller.isPasswordHidden.value,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.lock),
+                  hintText: "Password",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      controller.isPasswordHidden.value
                           ? Icons.visibility_off
-                          : Icons.visibility),
-                      onPressed: controller.togglePasswordVisibility,
+                          : Icons.visibility,
                     ),
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10.w)),
+                    onPressed: controller.togglePasswordVisibility,
                   ),
-                )),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.w),
+                  ),
+                ),
+              ),
+            ),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {},
-                child: Text("Forgot Password?", style: TextStyle(color: Colors.grey[600])),
+                child: Text(
+                  "Forgot Password?",
+                  style: TextStyle(color: Colors.grey[600]),
+                ),
               ),
             ),
             SizedBox(height: 10.h),
             CommonButtons(
               title: "Sign in",
-              onTap: () {
-                Get.to((BottomNavigationBarView()));
-              },
-              // onTap: controller.login,
+
+              onTap: controller.login,
               color: Colors.teal,
-             textStyle: TextStyle(
-              color: Colors.white
-             ),
+              textStyle: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 20.h),
             Row(
@@ -83,8 +92,11 @@ class LoginView extends StatelessWidget {
                   onTap: () {
                     Get.to((SignUpScreenView()));
                   },
-                  child: Text("Sign Up", style: TextStyle(color: Colors.redAccent)),
-                )
+                  child: Text(
+                    "Sign Up",
+                    style: TextStyle(color: Colors.redAccent),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 20.h),
@@ -98,18 +110,28 @@ class LoginView extends StatelessWidget {
                     children: [
                       GestureDetector(
                         onTap: () {},
-                        child: Text("Terms of Service", style: TextStyle(decoration: TextDecoration.underline)),
+                        child: Text(
+                          "Terms of Service",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
                       ),
                       Text("and"),
                       GestureDetector(
                         onTap: () {},
-                        child: Text("Privacy Policy", style: TextStyle(decoration: TextDecoration.underline)),
+                        child: Text(
+                          "Privacy Policy",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

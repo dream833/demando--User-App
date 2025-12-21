@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-
-
-
 class SignupScreenController extends GetxController {
   final nameController = TextEditingController();
   final emailController = TextEditingController();
@@ -16,15 +13,15 @@ class SignupScreenController extends GetxController {
   var isOtpVerified = false.obs;
   var isLoading = false.obs;
 
-  String? _serverOtp; 
+  String? _serverOtp;
 
-var isEmailFilled = false.obs;
+  var isEmailFilled = false.obs;
 
-void onEmailChanged(String val) {
-  isEmailFilled.value = val.trim().isNotEmpty;
-  showOtpField.value = false;
-  isOtpVerified.value = false;
-}
+  void onEmailChanged(String val) {
+    isEmailFilled.value = val.trim().isNotEmpty;
+    showOtpField.value = false;
+    isOtpVerified.value = false;
+  }
 
   // Future<void> sendOtp() async {
   //   if (emailController.text.isEmpty) {
@@ -40,7 +37,7 @@ void onEmailChanged(String val) {
   //     );
 
   //     if (response.statusCode == 200) {
-    
+
   //       if (response.data is Map && response.data["otp"] != null) {
   //         _serverOtp = response.data["otp"].toString();
   //       }
@@ -57,7 +54,6 @@ void onEmailChanged(String val) {
   //     isLoading.value = false;
   //   }
   // }
-
 
   void verifyOtp() {
     if (_serverOtp != null &&
