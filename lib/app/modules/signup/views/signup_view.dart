@@ -1,13 +1,16 @@
-import 'package:demandouser/app/modules/bottomnavigationbar/views/bottomnavigationbar_view.dart';
-import 'package:demandouser/app/modules/login/views/commonbuttons.dart';
-import 'package:demandouser/app/modules/signup/controllers/signup_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/extension_navigation.dart';
 
+import '../../bottomnavigationbar/views/bottomnavigationbar_view.dart';
+import '../../login/views/commonbuttons.dart';
+import '../controllers/signup_controller.dart';
 
 class SignUpScreenView extends StatelessWidget {
-  final  controller = Get.put(SignupScreenController());
+  final controller = Get.put(SignupScreenController());
 
   SignUpScreenView({super.key});
 
@@ -15,8 +18,11 @@ class SignUpScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Sign Up', style: TextStyle(fontWeight: FontWeight.bold)),
-        leading: BackButton(),
+        title: const Text(
+          'Sign Up',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: const BackButton(),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
@@ -38,105 +44,50 @@ class SignUpScreenView extends StatelessWidget {
               ),
               SizedBox(height: 10.h),
 
-              /// Name
-              _buildTextField(controller.nameController, Icons.person, "Name"),
-
-              Stack(
-                children: [
-                  _buildTextField(
-                    controller.emailController,
-                    Icons.email,
-                    "E-mail",
-                    onChanged: controller.onEmailChanged, // ✅ new
-                  ),
-                  Positioned(
-                    right: 10,
-                    top: 15,
-                    child: controller.isOtpVerified.value
-                        ? Icon(
-                            Icons.check_circle,
-                            color: Colors.green,
-                            size: 22.sp,
-                          )
-                        : const SizedBox(),
-                  ),
-                ],
+              _buildTextField(
+                controller.nameController,
+                Icons.person,
+                "Name",
+                onChanged: (_) => controller.checkForm(),
               ),
-              SizedBox(height: 5.h),
 
-              // OTP field
-              if (controller.showOtpField.value &&
-                  !controller.isOtpVerified.value)
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildTextField(
-                        controller.otpController,
-                        Icons.lock_clock,
-                        "Enter OTP",
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: controller.verifyOtp,
-                      child: const Text(
-                        "Verify",
-                        style: TextStyle(color: Colors.teal),
-                      ),
-                    ),
-                  ],
-                ),
-
-             
-              if (controller.isEmailFilled.value &&
-                  !controller.isOtpVerified.value &&
-                  !controller.showOtpField.value)
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      
-                    },
-                    // onPressed: controller.sendOtp,
-                    child: const Text(
-                      "Send OTP",
-                      style: TextStyle(color: Colors.teal),
-                    ),
-                  ),
-                ),
+              _buildTextField(
+                controller.emailController,
+                Icons.email,
+                "E-mail",
+                onChanged: (_) => controller.checkForm(),
+              ),
 
               _buildTextField(
                 controller.mobileController,
                 Icons.phone,
                 "Mobile Number",
+                onChanged: (_) => controller.checkForm(),
               ),
+
               _buildTextField(
                 controller.passwordController,
                 Icons.lock,
                 "Password",
                 isObscure: true,
+                onChanged: (_) => controller.checkForm(),
               ),
-              // _buildTextField(
-              //   controller.referController,
-              //   Icons.card_giftcard,
-              //   "Referral Code",
-              // ),
 
               SizedBox(height: 30.h),
 
               CommonButtons(
                 title: "Join with Us",
-                onTap: () {
-                  Get.to((BottomNavigationBarView()));
-                  
-                },
-                // onTap: controller.isOtpVerified.value
-                //     ? controller.submitForm
-                //     : null,
-                color: controller.isOtpVerified.value
-                    ? Colors.teal
+                onTap: controller.isFormValid.value
+                    ? () {
+                        controller.register();
+                      }
+                    : null,
+                color: controller.isFormValid.value
+                    ? Colors.green
                     : Colors.grey,
                 textStyle: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
+
               SizedBox(height: 20.h),
             ],
           ),
