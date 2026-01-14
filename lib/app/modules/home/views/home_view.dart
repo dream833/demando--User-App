@@ -1,4 +1,3 @@
-
 import 'package:demandouser/app/data/widgets/shimmer.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -55,18 +54,23 @@ class HomeView extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              children: const [
-                Icon(
+              children: [
+                const Icon(
                   Icons.location_on_outlined,
                   size: 20,
                   color: Colors.deepPurple,
                 ),
-                SizedBox(width: 4),
-                Text(
-                  "Gobardanga, Ichapur",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black87,
+                const SizedBox(width: 4),
+
+                /// 🔥 Dynamic location
+                Obx(
+                  () => Text(
+                    controller.currentAddress.value,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87,
+                    ),
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ],
@@ -101,7 +105,7 @@ class HomeView extends GetView<HomeController> {
             ],
           ),
         ),
-        SizedBox(height: 6.h), 
+        SizedBox(height: 6.h),
       ],
     ),
   );
@@ -348,6 +352,4 @@ class HomeView extends GetView<HomeController> {
       ],
     ),
   );
-
- 
 }
